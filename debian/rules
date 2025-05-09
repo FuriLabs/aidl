@@ -1,0 +1,16 @@
+#!/usr/bin/make -f
+
+lib%.so: debian/lib%.mk
+	dh_auto_build --buildsystem=makefile -- --file $<
+
+aidl: debian/aidl.mk libaidl-common.so
+	dh_auto_build --buildsystem=makefile -- --file $<
+
+debian/%.1: debian/%.1.md
+	pandoc --standalone --from=markdown-smart --to=man --output=$@ $<
+
+%:
+	dh $@
+
+override_dh_auto_build: aidl debian/aidl.1
+override_dh_dwz:
