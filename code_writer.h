@@ -44,14 +44,13 @@ class CodeWriter {
   // Write a formatted string to this writer in the usual printf sense.
   // Returns false on error.
   template <typename... Args>
-  bool Write(const char* format, Args... args) __attribute__((format(printf, 2, 0))) {
+  bool Write(const char* format, Args... args) {
     std::string formatted;
     android::base::StringAppendF(&formatted, format, args...);
 
     return WriteString(formatted);
   }
 
-  template <>
   bool Write(const char* str) {
     return WriteString(str);
   }
